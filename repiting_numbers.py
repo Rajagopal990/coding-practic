@@ -1,6 +1,6 @@
 arr = input().split()
 
-fre1 = {}
+freq = {}
 
 for i in arr:
     freq[i] = freq.get(i, 0) + 1
