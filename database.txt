@@ -29,3 +29,24 @@ solution :
 
 select concat(first_name,' ',last_name) as full_name
 from patients;
+
+
+Show first name, last name, and the full province name of each patient.
+
+Example: 'Ontario' instead of 'ON'
+
+
+SELECT
+    p.first_name,p.last_name,pr.province_name
+FROM patients p
+JOIN province_names pr
+    ON p.province_id = pr.province_id;
+
+
+Show the first_name, last_name, and height of the patient with the greatest height.
+
+
+select first_name,last_name,height from patients
+order by height desc
+limit 1;
+    
