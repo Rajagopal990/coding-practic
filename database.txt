@@ -1,52 +1,121 @@
+1.Viewing the Database
+SELECT * FROM patients;
 
-
-SELECT first_name, last_name,gender from patients
+2.Show first name, last name, and gender of patients whose gender is 'M'
+SELECT first_name , last_name , gender
+FROM patients
 where gender = 'M';
 
-
-
-question : Show first name of patients that start with the letter 'C'
-solution : 
-SELECT first_name from patients
-where first_name like "c%";
-
-
-question : Show first name and last name of patients that weight within the range of 100 to 120 (inclusive)
-solution : 
-
-SELECT first_name, last_name from patients
+3.Show first name and last name of patients that weight within the range of 100 to 120 (inclusive)
+SELECT first_name , last_name
+FROM patients
 where weight between 100 and 120;
 
-question : Update the patients table for the allergies column. If the patient's allergies is null then replace it with 'NKA'
-solution : 
+4.Show first name and last name of patients who does not have allergies. (null)
+SELECT first_name , last_name
+FROM patients
+where allergies is NULL;
 
-update  patients
+5.Update the patients table for the allergies column. If the patient's allergies is null then replace it with 'NKA'
+update patients 
 set allergies = 'NKA'
-where allergies is null ;
+where allergies is NULL;
 
-questions : Show first name and last name concatinated into one column to show their full name.
-solution : 
-
-select concat(first_name,' ',last_name) as full_name
+6.Show first name and last name concatinated into one column to show their full name.
+select concat(first_name,' ',last_name) aS full_name
 from patients;
 
+7.Show first name, last name, and the full province name of each patient.
+select p.first_name , p.last_name ,pn.province_name
+from patients AS p 
+inner join province_names as pn
+on p.province_id = pn.province_id;
 
-Show first name, last name, and the full province name of each patient.
+8.Show how many patients have a birth_date with 2010 as the birth year.
+select count(*) AS total_patients
+from patients
+where birth_date like '%2010%';
 
-Example: 'Ontario' instead of 'ON'
+9.Show the first_name, last_name, and height of the patient with the greatest height.
+select first_name , last_name , max(height)
+from patients;
 
+10.Show all columns for patients who have one of the following patient_ids:
+1,45,534,879,1000
+select * from patients
+where patient_id in (1,45,534,879,1000);
 
-SELECT
-    p.first_name,p.last_name,pr.province_name
-FROM patients p
-JOIN province_names pr
-    ON p.province_id = pr.province_id;
+11.Show the total number of admissions
+select count(*) AS total_admissions
+from admissions;
 
+12.Show all the columns from admissions where the patient was admitted and discharged on the same day.
+select *
+from admissions
+where admission_date = discharge_date;
 
-Show the first_name, last_name, and height of the patient with the greatest height.
+13.Show the patient id and the total number of admissions for patient_id 579.
+select patient_id ,count(*) as total_admissions
+from admissions
+where patient_id = 579;
 
+14.Based on the cities that our patients live in, show unique cities that are in province_id 'NS'.
+select distinct city As unique_cities
+from patients
+where province_id is 'NS';
 
-select first_name,last_name,height from patients
-order by height desc
+15.Write a query to find the first_name, last name and birth date of patients who has height greater than 160 and weight greater than 70
+select first_name , last_name , birth_date
+from patients
+where height > 160 and weight > 70;
+
+16.Write a query to find list of patients first_name, last_name, and allergies where allergies are not null and are from the city of 'Hamilton'
+select first_name , last_name , allergies
+from patients
+where allergies <> 'NULL' and city = 'Hamilton';
+
+17.Show the category_name and description from the categories table sorted by category_name.
+select category_name , description
+from categories
+order by category_name;
+
+18.Show all the contact_name, address, city of all customers which are not from 'Germany', 'Mexico', 'Spain'
+select contact_name , address ,city 
+from customers
+where country not in ('Germany', 'Mexico', 'Spain');
+
+19.Show order_date, shipped_date, customer_id, Freight of all orders placed on 2018 Feb 26
+select order_date ,shipped_date ,customer_id ,freight
+from orders
+where order_date = '2018-02-26';
+
+20.Show the employee_id, order_id, customer_id, required_date, shipped_date from all orders shipped later than the required date
+select employee_id,order_id,customer_id,required_date,shipped_date
+from orders
+where shipped_date > required_date;
+
+21.Show all the even numbered Order_id from the orders table
+select order_id
+from orders
+where order_id % 2 == 0;
+
+22.Show the city, company_name, contact_name of all customers from cities which contains the letter 'L' in the city name, sorted by contact_name
+select city , company_name ,contact_name 
+from customers
+where city LIke '%L%'
+order by contact_name;
+
+23.Show the company_name, contact_name, fax number of all customers that has a fax number. (not null)
+select company_name ,contact_name ,fax
+from customers
+where fax <> 'NULL';
+
+24.Show the first_name, last_name. hire_date of the most recently hired employee.
+select first_name , last_name ,hire_date
+from employees
+order by hire_date desc 
 limit 1;
-    
+
+25.Show the average unit price rounded to 2 decimal places, the total units in stock, total discontinued products from the products table.
+select round(AVG(unit_price),2) , sum(units_in_stock) ,sum(discontinued)
+from products;
